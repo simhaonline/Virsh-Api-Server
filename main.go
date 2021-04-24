@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"io/ioutil"
 )
 
 func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
@@ -15,7 +16,7 @@ func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 		}
 		cmd := exec.Command("bash", "/Virsh-Api-Server/getVmStatus.sh", string(reqBody))
 		output, _ := cmd.Output()
-		fmt.Printf("%s\n", output)
+		log.Printf("/getVmStatus return -> %s\n", output)
 		w.Write([]byte(output))
 	}
 }
