@@ -9,10 +9,14 @@ import (
 
 func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		cmd := exec.Command("bash", "/Virsh-Api-Server/getVmStatus.sh")
+		reqBody, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cmd := exec.Command("bash", "/Virsh-Api-Server/getVmStatus.sh", string(reqBody))
 		output, _ := cmd.Output()
-		fmt.Fprintf(w, string(output))
-		log.Println("getVmStatus")
+		fmt.Printf("%s\n", output)
+		w.Write([]byte(output))
 	}
 }
 
