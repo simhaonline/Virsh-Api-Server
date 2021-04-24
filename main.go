@@ -23,10 +23,14 @@ func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 
 func startVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		cmd := exec.Command("sudo", "virsh", "start", "Windows10")
+		reqBody, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cmd := exec.Command("sudo", "virsh", "start", string(reqBody))
 		output, _ := cmd.Output()
-		fmt.Fprintf(w, string(output))
-		log.Println("startVM")
+		log.Printf("/startVM return -> %s\n", output)
+		w.Write([]byte(output))
 	}
 }
 
