@@ -49,10 +49,14 @@ func shutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 
 func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		cmd := exec.Command("sudo", "virsh", "destroy", "Windows10")
+		reqBody, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cmd := exec.Command("sudo", "virsh", "destroy", string(reqBody))
 		output, _ := cmd.Output()
-		fmt.Fprintf(w, string(output))
-		log.Println("forceShutdownVM")
+		log.Printf("/forceShutdownVM return -> %s\n", output)
+		w.Write([]byte(output))
 	}
 }
 
