@@ -62,10 +62,14 @@ func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 
 func rebootVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		cmd := exec.Command("sudo", "virsh", "reboot", "Windows10")
+		reqBody, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cmd := exec.Command("sudo", "virsh", "reboot", string(reqBody))
 		output, _ := cmd.Output()
-		fmt.Fprintf(w, string(output))
-		log.Println("rebootVM")
+		log.Printf("/rebootVM return -> %s\n", output)
+		w.Write([]byte(output))
 	}
 }
 
