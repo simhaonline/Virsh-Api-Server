@@ -1,74 +1,86 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os/exec"
-	"io/ioutil"
 )
+
+var Auth_Token = "virsh_api_server"
 
 func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		reqBody, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("bash", "/Virsh-Api-Server/getVmStatus.sh", string(reqBody))
+			output, _ := cmd.Output()
+			log.Printf("/getVmStatus return -> %s\n", output)
+			w.Write([]byte(output))
 		}
-		cmd := exec.Command("bash", "/Virsh-Api-Server/getVmStatus.sh", string(reqBody))
-		output, _ := cmd.Output()
-		log.Printf("/getVmStatus return -> %s\n", output)
-		w.Write([]byte(output))
 	}
 }
 
 func startVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		reqBody, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("sudo", "virsh", "start", string(reqBody))
+			output, _ := cmd.Output()
+			log.Printf("/startVM return -> %s\n", output)
+			w.Write([]byte(output))
 		}
-		cmd := exec.Command("sudo", "virsh", "start", string(reqBody))
-		output, _ := cmd.Output()
-		log.Printf("/startVM return -> %s\n", output)
-		w.Write([]byte(output))
 	}
 }
 
 func shutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		reqBody, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("sudo", "virsh", "shutdown", string(reqBody))
+			output, _ := cmd.Output()
+			log.Printf("/shutdownVM return -> %s\n", output)
+			w.Write([]byte(output))
 		}
-		cmd := exec.Command("sudo", "virsh", "shutdown", string(reqBody))
-		output, _ := cmd.Output()
-		log.Printf("/shutdownVM return -> %s\n", output)
-		w.Write([]byte(output))
 	}
 }
 
 func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		reqBody, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("sudo", "virsh", "destroy", string(reqBody))
+			output, _ := cmd.Output()
+			log.Printf("/forceShutdownVM return -> %s\n", output)
+			w.Write([]byte(output))
 		}
-		cmd := exec.Command("sudo", "virsh", "destroy", string(reqBody))
-		output, _ := cmd.Output()
-		log.Printf("/forceShutdownVM return -> %s\n", output)
-		w.Write([]byte(output))
 	}
 }
 
 func rebootVM(w http.ResponseWriter, r *http.Request) { // POST
 	if r.Method == "POST" {
-		reqBody, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("sudo", "virsh", "reboot", string(reqBody))
+			output, _ := cmd.Output()
+			log.Printf("/rebootVM return -> %s\n", output)
+			w.Write([]byte(output))
 		}
-		cmd := exec.Command("sudo", "virsh", "reboot", string(reqBody))
-		output, _ := cmd.Output()
-		log.Printf("/rebootVM return -> %s\n", output)
-		w.Write([]byte(output))
 	}
 }
 
