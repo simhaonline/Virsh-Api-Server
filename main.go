@@ -20,6 +20,8 @@ func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 			output, _ := cmd.Output()
 			log.Printf("/getVmStatus return -> %s\n", output)
 			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
 		}
 	}
 }
@@ -35,6 +37,8 @@ func startVM(w http.ResponseWriter, r *http.Request) { // POST
 			output, _ := cmd.Output()
 			log.Printf("/startVM return -> %s\n", output)
 			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
 		}
 	}
 }
@@ -50,6 +54,8 @@ func shutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 			output, _ := cmd.Output()
 			log.Printf("/shutdownVM return -> %s\n", output)
 			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
 		}
 	}
 }
@@ -65,6 +71,8 @@ func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 			output, _ := cmd.Output()
 			log.Printf("/forceShutdownVM return -> %s\n", output)
 			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
 		}
 	}
 }
@@ -80,6 +88,8 @@ func rebootVM(w http.ResponseWriter, r *http.Request) { // POST
 			output, _ := cmd.Output()
 			log.Printf("/rebootVM return -> %s\n", output)
 			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
 		}
 	}
 }
