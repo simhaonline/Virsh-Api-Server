@@ -1,0 +1,30 @@
+name: "App-Release"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up code
+      uses: actions/checkout@master
+
+    - name: Set up Go
+      uses: actions/setup-go@master
+
+    - name: Build
+      run: GOOS=linux GOARCH=amd64 go build -o Virsh-Api-Server-Linux-x86_64
+    
+    - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          draft: false
+          prerelease: false
+          title: "Virsh-Api-Server App"
+          files: |
+            Virsh-Api-Server-Linux-x86_64
