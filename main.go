@@ -111,6 +111,7 @@ func handleRequests() {
 	http.HandleFunc("/shutdownVM", shutdownVM)
 	http.HandleFunc("/forceShutdownVM", forceShutdownVM)
 	http.HandleFunc("/rebootVM", rebootVM)
+	log.Println("server started on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
 
