@@ -20,11 +20,11 @@ jobs:
       run: GOOS=linux GOARCH=amd64 go build -o Virsh-Api-Server-Linux-x86_64
     
     - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          draft: false
-          prerelease: false
-          title: "Virsh-Api-Server App"
-          files: |
-            Virsh-Api-Server-Linux-x86_64
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        draft: false
+        prerelease: false
+        title: "Virsh-Api-Server App"
+        files: |
+          Virsh-Api-Server-Linux-x86_64
