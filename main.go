@@ -105,12 +105,27 @@ func rebootVM(w http.ResponseWriter, r *http.Request) { // POST
 	}
 }
 
+func updateXML(w http.ResponseWriter, r *http.Request) { // POST
+	enableCors(&w)
+	if r.Method == "POST" {
+		if r.Header.Get("Auth_Token") == Auth_Token {
+			cmd := exec.Command("sudo", "virsh", "define", "/var/lib/libvirt/xml/windows10_vm_template.xml")
+			output, _ := cmd.Output()
+			log.Printf("/updateXML return -> %s\n", output)
+			w.Write([]byte(output))
+		} else {
+			w.Write([]byte("Error Bad Auth-Token"))
+		}
+	}
+}
+
 func handleRequests() {
 	http.HandleFunc("/getVmStatus", getVmStatus)
 	http.HandleFunc("/startVM", startVM)
 	http.HandleFunc("/shutdownVM", shutdownVM)
 	http.HandleFunc("/forceShutdownVM", forceShutdownVM)
 	http.HandleFunc("/rebootVM", rebootVM)
+	http.HandleFunc("/updateXML", updateXML)
 	log.Println("server started on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
