@@ -113,7 +113,7 @@ func updateXML(w http.ResponseWriter, r *http.Request) { // POST
 			if err != nil {
 				log.Fatal(err)
 			}
-			cmd := exec.Command("sudo", "virsh", "undefine", string(reqBody), "--nvram", "&&", "sudo", "virsh", "define", "/var/lib/libvirt/xml/windows10_vm_template.xml")
+			cmd := exec.Command("sudo virsh undefine", string(reqBody), "--nvram && sudo virsh define /var/lib/libvirt/xml/windows10_vm_template.xml")
 			output, _ := cmd.Output()
 			log.Printf("/updateXML return -> %s\n", output)
 			w.Write([]byte(output))
