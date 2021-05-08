@@ -109,7 +109,11 @@ func updateXML(w http.ResponseWriter, r *http.Request) { // POST
 	enableCors(&w)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
-			cmd := exec.Command("sudo", "virsh", "define", "/var/lib/libvirt/xml/windows10_vm_template.xml")
+			reqBody, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			cmd := exec.Command("sudo", "virsh", "undefine", string(reqBody), "--nvram", "&&", "sudo", "virsh", "define", "/var/lib/libvirt/xml/windows10_vm_template.xml")
 			output, _ := cmd.Output()
 			log.Printf("/updateXML return -> %s\n", output)
 			w.Write([]byte(output))
