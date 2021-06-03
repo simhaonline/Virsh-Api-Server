@@ -9,14 +9,14 @@ import (
 
 var Auth_Token = "virsh_api_server"
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Auth_Token")
 }
 
 func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
-	enableCors(&w)
+	setupCorsResponse(&w, r)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
 			reqBody, err := ioutil.ReadAll(r.Body)
@@ -34,7 +34,7 @@ func getVmStatus(w http.ResponseWriter, r *http.Request) { // POST
 }
 
 func startVM(w http.ResponseWriter, r *http.Request) { // POST
-	enableCors(&w)
+	setupCorsResponse(&w, r)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
 			reqBody, err := ioutil.ReadAll(r.Body)
@@ -52,7 +52,7 @@ func startVM(w http.ResponseWriter, r *http.Request) { // POST
 }
 
 func shutdownVM(w http.ResponseWriter, r *http.Request) { // POST
-	enableCors(&w)
+	setupCorsResponse(&w, r)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
 			reqBody, err := ioutil.ReadAll(r.Body)
@@ -70,7 +70,7 @@ func shutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 }
 
 func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
-	enableCors(&w)
+	setupCorsResponse(&w, r)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
 			reqBody, err := ioutil.ReadAll(r.Body)
@@ -88,7 +88,7 @@ func forceShutdownVM(w http.ResponseWriter, r *http.Request) { // POST
 }
 
 func rebootVM(w http.ResponseWriter, r *http.Request) { // POST
-	enableCors(&w)
+	setupCorsResponse(&w, r)
 	if r.Method == "POST" {
 		if r.Header.Get("Auth_Token") == Auth_Token {
 			reqBody, err := ioutil.ReadAll(r.Body)
