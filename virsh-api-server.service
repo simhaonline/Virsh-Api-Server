@@ -1,8 +1,16 @@
 [Unit]
 Description=Virsh-Api-Server
+ConditionPathExists=/Virsh-Api-Server
+After=network.target
 
 [Service]
-ExecStart=/Virsh-Api-Server/start.sh
+User=root
+Group=root
+ExecStartPre=/bin/chmod u+x /Virsh-Api-Server/Virsh-Api-Server
+ExecStartPre=/bin/chmod u+x /Virsh-Api-Server/getVmStatus.sh
+ExecStart=/Virsh-Api-Server/Virsh-Api-Server
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
